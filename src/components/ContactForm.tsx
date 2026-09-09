@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2Icon, AlertCircleIcon, SendIcon } from 'lucide-react';
-import { site } from '../data/site';
+import { AlertCircleIcon, CheckIcon, MessageCircleIcon } from 'lucide-react';
 
 const projectTypes = [
 'Civil Construction',
@@ -12,6 +11,8 @@ const projectTypes = [
 'Solar Water System',
 'Solar Hi-Mast',
 'Other'];
+
+const WHATSAPP_NUMBER = '918895381747';
 
 
 interface FormState {
@@ -44,9 +45,7 @@ function validate(values: FormState): Errors {
   } else if (!/^[0-9+\-\s()]{7,16}$/.test(values.phone.trim())) {
     errors.phone = 'Enter a valid phone number.';
   }
-  if (!values.email.trim()) {
-    errors.email = 'Please enter an email address.';
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
+  if (values.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
     errors.email = 'Enter a valid email address.';
   }
   if (!values.projectType) errors.projectType = 'Select a project type.';
@@ -64,7 +63,7 @@ const fieldClass =
 export function ContactForm() {
   const [values, setValues] = useState<FormState>(emptyForm);
   const [errors, setErrors] = useState<Errors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [whatsappOpened, setWhatsappOpened] = useState(false);
 
   const update =
   (key: keyof FormState) =>
@@ -86,56 +85,26 @@ export function ContactForm() {
       document.getElementById(firstKey)?.focus();
       return;
     }
-    setSubmitted(true);
+    const message = `Hello Pankaj Raj Infrastructure,
+
+I would like to make a project enquiry.
+
+Name: ${values.fullName.trim()}
+Phone: ${values.phone.trim()}
+Email: ${values.email.trim() || 'Not provided'}
+Company: ${values.organisation.trim() || 'Not provided'}
+Project Type: ${values.projectType}
+Location: ${values.location.trim() || 'Not provided'}
+Message: ${values.message.trim()}
+
+Please contact me regarding this project.
+
+Thank you.`;
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    setWhatsappOpened(true);
   };
-
-  if (submitted) {
-    return (
-      <motion.div
-        className="border border-line bg-mist p-8 text-center sm:p-12"
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-        role="status">
-        
-        <CheckCircle2Icon
-          className="mx-auto h-10 w-10 text-royal"
-          aria-hidden="true" />
-        
-        <h3 className="mt-5 font-display text-xl font-bold text-navy">
-          Thank you. Our team will contact you shortly.
-        </h3>
-        <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-ink/65">
-          This form is not yet connected to an email service, so your enquiry
-          has not been sent automatically. Please email the details to{' '}
-          <a
-            href={`mailto:${site.email}`}
-            className="font-semibold text-royal underline underline-offset-2">
-            
-            {site.email}
-          </a>{' '}
-          or call{' '}
-          <a
-            href={site.phoneHref}
-            className="font-semibold text-royal underline underline-offset-2">
-            
-            {site.phone}
-          </a>
-          .
-        </p>
-        <button
-          type="button"
-          onClick={() => {
-            setValues(emptyForm);
-            setSubmitted(false);
-          }}
-          className="mt-7 border border-navy px-6 py-3 font-display text-sm font-semibold text-navy transition-colors duration-150 ease-smooth hover:bg-navy hover:text-white">
-          
-          Submit another enquiry
-        </button>
-      </motion.div>);
-
-  }
 
   return (
     <form
@@ -162,7 +131,7 @@ export function ContactForm() {
           
         </Field>
 
-        <Field id="organisation" label="Company / Organisation">
+        <Field id="organisation" label="Company Name">
           <input
             id="organisation"
             name="organisation"
@@ -187,7 +156,7 @@ export function ContactForm() {
           
         </Field>
 
-        <Field id="email" label="Email" required error={errors.email}>
+        <Field id="email" label="Email" error={errors.email}>
           <input
             id="email"
             name="email"
@@ -236,7 +205,7 @@ export function ContactForm() {
         </Field>
 
         <div className="sm:col-span-2">
-          <Field id="message" label="Message" required error={errors.message}>
+          <Field id="message" label="Your Requirement / Message" required error={errors.message}>
             <textarea
               id="message"
               name="message"
@@ -253,19 +222,22 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="group mt-7 inline-flex w-full items-center justify-center gap-2 bg-navy px-7 py-4 font-display text-sm font-semibold text-white transition-colors duration-150 ease-smooth hover:bg-royal sm:w-auto">
-        
-        Submit Project Enquiry
-        <SendIcon
-          className="h-4 w-4 transition-transform duration-200 ease-smooth group-hover:translate-x-0.5"
-          aria-hidden="true" />
-        
+        className="group mt-7 inline-flex w-full items-center justify-center gap-2 bg-[#128c7e] px-7 py-4 font-display text-sm font-semibold text-white transition-colors duration-150 ease-smooth hover:bg-[#0d6f63] sm:w-auto">
+        <MessageCircleIcon className="h-5 w-5" aria-hidden="true" />
+        Send Enquiry on WhatsApp
       </button>
 
-      <p className="mt-4 text-xs leading-relaxed text-ink/50">
-        No email backend is connected yet, so enquiries are not delivered
-        automatically. You can also write directly to {site.email}.
-      </p>
+      <AnimatePresence>
+        {whatsappOpened &&
+        <motion.p
+          className="mt-4 flex items-center gap-2 text-xs leading-relaxed text-[#128c7e]"
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          role="status">
+          <CheckIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
+          WhatsApp opened. Please press Send to submit your enquiry.
+        </motion.p>}
+      </AnimatePresence>
     </form>);
 
 }

@@ -64,20 +64,13 @@ export function Header() {
         <div className="mx-auto flex max-w-shell items-center justify-between gap-4 px-4 sm:px-6">
           <Link
             to="/"
-            className="flex items-center gap-3 py-3.5"
+            className="flex items-center py-2"
             aria-label={`${site.brandName} — home`}>
-            
-            <span className="grid h-11 w-11 shrink-0 place-items-center bg-navy font-display text-base font-bold text-white">
-              {site.brandInitials}
-            </span>
-            <span className="leading-tight">
-              <span className="block font-display text-[15px] font-bold uppercase tracking-wide text-navy sm:text-base">
-                {site.brandName}
-              </span>
-              <span className="block text-[10px] tech-label text-royal">
-                {site.brandSuffix}
-              </span>
-            </span>
+            <img
+              src="/TPS_Logo_Final.png"
+              alt={site.brandName}
+              className="h-14 w-14 object-contain"
+              decoding="async" />
           </Link>
 
           <nav

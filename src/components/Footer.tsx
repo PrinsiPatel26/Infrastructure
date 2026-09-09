@@ -11,19 +11,11 @@ export function Footer() {
         <div className="mx-auto max-w-shell px-4 py-16 sm:px-6 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <div className="flex items-center gap-3">
-                <span className="grid h-11 w-11 place-items-center bg-white font-display text-base font-bold text-navy">
-                  {site.brandInitials}
-                </span>
-                <span className="leading-tight">
-                  <span className="block font-display text-base font-bold uppercase tracking-wide text-white">
-                    {site.brandName}
-                  </span>
-                  <span className="block text-[10px] tech-label text-solar">
-                    {site.brandSuffix}
-                  </span>
-                </span>
-              </div>
+              <img
+                src="/TPS_Logo_Final.png"
+                alt={site.brandName}
+                className="h-24 w-24 object-contain"
+                decoding="async" />
               <p className="mt-6 max-w-sm text-sm leading-relaxed">
                 {site.tagline}
               </p>

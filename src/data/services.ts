@@ -68,7 +68,7 @@ export const services: Service[] = [
   'Pipeline connections',
   'Maintenance support'],
 
-  image: images.roPlant.src,
+  image: '/photo211.png',
   imageAlt: images.roPlant.alt,
   accent: 'water'
 },
@@ -87,8 +87,8 @@ export const services: Service[] = [
   'Pump installation',
   'Electrical connections'],
 
-  image: images.jalMinar.src,
-  imageAlt: images.jalMinar.alt,
+  image: '/sloar_water11.png',
+  imageAlt: 'Solar powered water pumping and supply system installation',
   accent: 'solar'
 },
 {
