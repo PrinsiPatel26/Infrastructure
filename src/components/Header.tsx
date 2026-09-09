@@ -67,9 +67,9 @@ export function Header() {
             className="flex items-center py-2"
             aria-label={`${site.brandName} — home`}>
             <img
-              src="/TPS_Logo_Final.png"
+              src="/tps_logo_final_1.jpeg"
               alt={site.brandName}
-              className="h-14 w-14 object-contain"
+              className="h-20 w-20 object-contain"
               decoding="async" />
           </Link>
 

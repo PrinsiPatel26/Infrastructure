@@ -12,9 +12,9 @@ export function Footer() {
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <img
-                src="/TPS_Logo_Final.png"
+                src="/tps_logo_final_1.jpeg"
                 alt={site.brandName}
-                className="h-24 w-24 object-contain"
+                className="h-32 w-32 object-contain"
                 decoding="async" />
               <p className="mt-6 max-w-sm text-sm leading-relaxed">
                 {site.tagline}
