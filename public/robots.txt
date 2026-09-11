@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tycoonprojectsolutions.in/sitemap.xml
+Sitemap: https://www.tycoonprojectsolutions.in/sitemap.xml

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { seoDefaults, site, offices } from '../data/site';
 
 function upsertMeta(selector: string, attrs: Record<string, string>) {
@@ -10,6 +11,16 @@ function upsertMeta(selector: string, attrs: Record<string, string>) {
   Object.entries(attrs).forEach(([key, value]) => el!.setAttribute(key, value));
 }
 
+function upsertCanonical(href: string) {
+  let el = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement('link');
+    el.rel = 'canonical';
+    document.head.appendChild(el);
+  }
+  el.href = href;
+}
+
 interface SeoOptions {
   title?: string;
   description?: string;
@@ -17,13 +28,18 @@ interface SeoOptions {
 }
 
 export function useSeo({ title, description, image }: SeoOptions = {}) {
+  const { pathname } = useLocation();
+
   useEffect(() => {
     const fullTitle = title ?
     `${title} | ${site.brandName} ${site.brandSuffix}` :
     seoDefaults.title;
     const desc = description || seoDefaults.description;
+    const canonicalPath = pathname === '/' ? '/' : pathname.replace(/\/+$/, '');
+    const canonicalUrl = `https://www.tycoonprojectsolutions.in${canonicalPath || '/'}`;
 
     document.title = fullTitle;
+    upsertCanonical(canonicalUrl);
 
     upsertMeta('meta[name="description"]', {
       name: 'description',
@@ -41,6 +57,10 @@ export function useSeo({ title, description, image }: SeoOptions = {}) {
       property: 'og:type',
       content: 'website'
     });
+    upsertMeta('meta[property="og:url"]', {
+      property: 'og:url',
+      content: canonicalUrl
+    });
     upsertMeta('meta[name="twitter:card"]', {
       name: 'twitter:card',
       content: 'summary_large_image'
@@ -51,7 +71,7 @@ export function useSeo({ title, description, image }: SeoOptions = {}) {
         content: image
       });
     }
-  }, [title, description, image]);
+  }, [title, description, image, pathname]);
 }
 
 export function useLocalBusinessSchema() {
