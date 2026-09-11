@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRightIcon, CheckIcon } from 'lucide-react';
+import { ArrowRightIcon, CheckIcon, MessageCircleIcon, PhoneIcon } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { Reveal } from '../components/Reveal';
 import { CivilServicesSection } from '../components/CivilServicesSection';
@@ -11,6 +11,8 @@ import { images } from '../data/images';
 
 export function ServicesPage() {
   const { hash } = useLocation();
+  const serviceContactNumber = '9239170206';
+  const serviceWhatsAppNumber = `91${serviceContactNumber}`;
 
   useSeo({
     title: 'Services',
@@ -129,16 +131,32 @@ export function ServicesPage() {
                 </ul>
 
                 <Reveal delay={0.2}>
-                  <Link
-                    to="/contact"
-                    className="group mt-8 inline-flex items-center gap-2 border border-navy px-6 py-3.5 font-display text-sm font-semibold text-navy transition-colors duration-150 ease-smooth hover:bg-navy hover:text-white">
-                    
-                    Enquire about this service
-                    <ArrowRightIcon
-                      className="h-4 w-4 transition-transform duration-200 ease-smooth group-hover:translate-x-1"
-                      aria-hidden="true" />
-                    
-                  </Link>
+                  <div className="mt-8 flex flex-wrap items-center gap-3">
+                    <Link
+                      to="/contact"
+                      className="group inline-flex items-center gap-2 border border-navy px-6 py-3.5 font-display text-sm font-semibold text-navy transition-colors duration-150 ease-smooth hover:bg-navy hover:text-white">
+                      Enquire about this service
+                      <ArrowRightIcon
+                        className="h-4 w-4 transition-transform duration-200 ease-smooth group-hover:translate-x-1"
+                        aria-hidden="true" />
+                    </Link>
+                    <a
+                      href={`https://wa.me/${serviceWhatsAppNumber}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Message ${serviceContactNumber} on WhatsApp`}
+                      className="inline-flex items-center gap-2 border border-[#25D366] px-4 py-3.5 font-display text-sm font-semibold text-[#168f45] transition-colors duration-150 ease-smooth hover:bg-[#25D366] hover:text-white">
+                      <MessageCircleIcon className="h-4 w-4" aria-hidden="true" />
+                      Message
+                    </a>
+                    <a
+                      href={`tel:+91${serviceContactNumber}`}
+                      aria-label={`Call ${serviceContactNumber}`}
+                      className="inline-flex items-center gap-2 border border-navy px-4 py-3.5 font-display text-sm font-semibold text-navy transition-colors duration-150 ease-smooth hover:bg-navy hover:text-white">
+                      <PhoneIcon className="h-4 w-4" aria-hidden="true" />
+                      {serviceContactNumber}
+                    </a>
+                  </div>
                 </Reveal>
               </div>
             </div>
